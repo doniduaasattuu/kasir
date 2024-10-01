@@ -17,9 +17,11 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         DB::table('users')->delete();
+        DB::table('products')->delete();
 
         $this->call([
             UserSeeder::class,
+            ProductSeeder::class,
         ]);
 
         // User::factory()->create([
