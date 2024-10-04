@@ -1,22 +1,58 @@
 import Pagination from "@/Components/Pagination";
 import PrimaryButton from "@/Components/PrimaryButton";
+import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { rupiah } from "@/Utils/helper";
 import { Head, router } from "@inertiajs/react";
+import { useState, useMemo, useEffect, useRef } from "react";
 
 export default function Product({ auth, products }) {
     function createNewProduct() {
         router.get(route("products.create"));
     }
 
+    const initialRender = useRef(true);
+    const urlParams = new URLSearchParams(window.location.search);
+    const [inputSearch, setInputSearch] = useState(
+        urlParams.get("search") ?? ""
+    );
+    const [searchTerm, setSearchTerm] = useState(urlParams.get("search") ?? "");
+
+    let userUrl = useMemo(() => {
+        const url = new URL(route("products.index"));
+
+        if (searchTerm) {
+            url.searchParams.append("search", searchTerm);
+        }
+
+        return url.href;
+    }, [searchTerm]);
+
+    useEffect(() => {
+        if (initialRender.current) {
+            initialRender.current = false;
+            return;
+        }
+
+        router.visit(userUrl, {
+            preserveScroll: true,
+            preserveState: true,
+            replace: true,
+        });
+    }, [userUrl]);
+
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            setSearchTerm(inputSearch);
+        }, 300);
+
+        return () => {
+            clearTimeout(handler);
+        };
+    }, [inputSearch]);
+
     return (
-        <AuthenticatedLayout
-            header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-                    Products
-                </h2>
-            }
-        >
+        <AuthenticatedLayout>
             <Head title="Products" />
 
             <div className="py-12">
@@ -25,7 +61,7 @@ export default function Product({ auth, products }) {
                         <div className="flex justify-between">
                             <div>
                                 <h2>Products</h2>
-                                <p>A list of products</p>
+                                <p>A list of all product</p>
                             </div>
                             <div>
                                 <PrimaryButton
@@ -36,6 +72,17 @@ export default function Product({ auth, products }) {
                             </div>
                         </div>
                     </div>
+
+                    <div>
+                        <TextInput
+                            id="search"
+                            className="mt-1 block w-sm"
+                            value={inputSearch}
+                            onChange={(e) => setInputSearch(e.target.value)}
+                            placeholder="Search product data..."
+                        />
+                    </div>
+
                     <div className="bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
                         <div className="overflow-x-scroll p-6 text-gray-900 dark:text-gray-300">
                             <table className="table min-w-max">

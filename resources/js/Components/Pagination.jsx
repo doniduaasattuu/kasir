@@ -37,7 +37,7 @@ export default function Pagination({ meta }) {
                                     }
                                 }}
                                 className={`join-item btn btn-sm sm:btn-md text-sm border-transparent border bg-gray-900 border-gray-800 hover:bg-gray-800 ${
-                                    link.active ? "bg-gray-600" : ""
+                                    link.active ? "bg-gray-700" : ""
                                 }`}
                             >
                                 <span
