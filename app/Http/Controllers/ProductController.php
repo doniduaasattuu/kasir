@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreProductRequest;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -15,6 +16,7 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $products = Product::search($request)
+            ->latest()
             ->paginate(10)
             ->withQueryString();
 
@@ -34,9 +36,11 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreProductRequest $request)
     {
-        //
+        $validated = $request->validated();
+
+        Product::insert($validated);
     }
 
     /**
