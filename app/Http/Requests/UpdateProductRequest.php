@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Product;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class StoreProductRequest extends FormRequest
+class UpdateProductRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,17 +23,17 @@ class StoreProductRequest extends FormRequest
      */
     public function rules(): array
     {
+        $product = Product::find(class_basename($this->url()));
+
         $this->merge([
-            'created_at' => now(),
             'updated_at' => now(),
         ]);
 
         return [
-            'name' => ['required', 'unique:App\Models\Product,name'],
-            'sku' => ['required', 'unique:App\Models\Product,sku', 'regex:/^[a-zA-Z]{3}[0-9]{3}[a-zA-Z]{2}$/'],
+            'name' => ['required', Rule::unique(Product::class)->ignore($product->id)],
+            'sku' => ['required', Rule::unique(Product::class)->ignore($product->id), 'regex:/^[a-zA-Z]{3}[0-9]{3}[a-zA-Z]{2}$/'],
             'price' => ['required', 'numeric'],
             'stock' => ['required', 'numeric'],
-            'created_at' => ['nullable'],
             'updated_at' => ['nullable'],
         ];
     }

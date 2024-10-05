@@ -37,6 +37,7 @@ class HandleInertiaRequests extends Middleware
                 'user' => $user,
             ],
             'role_id' => $user?->role_id,
+            'alert' => $request->session()->get('alert'),
         ];
     }
 }

@@ -1,12 +1,14 @@
+import Alert from "@/Components/Alert";
 import Pagination from "@/Components/Pagination";
 import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { rupiah } from "@/Utils/helper";
-import { Head, router } from "@inertiajs/react";
+import { Head, Link, router } from "@inertiajs/react";
 import { useState, useMemo, useEffect, useRef } from "react";
 
-export default function Product({ auth, products }) {
+export default function Product({ auth, products, alert }) {
+    const isAdmin = auth.user.role_id == 1 ?? false;
     function createNewProduct() {
         router.get(route("products.create"));
     }
@@ -73,7 +75,7 @@ export default function Product({ auth, products }) {
                         </div>
                     </div>
 
-                    <div>
+                    <div className="px-4 sm:px-0 flex space-x-4">
                         <TextInput
                             id="search"
                             className="mt-1 block w-sm"
@@ -81,7 +83,13 @@ export default function Product({ auth, products }) {
                             onChange={(e) => setInputSearch(e.target.value)}
                             placeholder="Search product data..."
                         />
+
+                        <Link className="text-blue-500 text-sm self-center">
+                            Refresh
+                        </Link>
                     </div>
+
+                    {alert && <Alert alert={alert} />}
 
                     <div className="bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
                         <div className="overflow-x-scroll p-6 text-gray-900 dark:text-gray-300">
@@ -91,7 +99,7 @@ export default function Product({ auth, products }) {
                                     <tr>
                                         <th>Name</th>
                                         <th>SKU</th>
-                                        <th>Price</th>
+                                        <th>@Price</th>
                                         <th>Stock</th>
                                     </tr>
                                 </thead>
@@ -102,10 +110,28 @@ export default function Product({ auth, products }) {
                                                 key={product.id}
                                                 className="hover"
                                             >
-                                                <th>{product.name}</th>
-                                                <th>{product.sku}</th>
-                                                <th>{rupiah(product.price)}</th>
-                                                <th>{product.stock} pcs</th>
+                                                <th>
+                                                    <Link
+                                                        href={
+                                                            isAdmin
+                                                                ? route(
+                                                                      "products.edit",
+                                                                      product.id
+                                                                  )
+                                                                : undefined
+                                                        }
+                                                        className={
+                                                            isAdmin
+                                                                ? "link underline-offset-2 hover:text-blue-500"
+                                                                : undefined
+                                                        }
+                                                    >
+                                                        {product.name}
+                                                    </Link>
+                                                </th>
+                                                <td>{product.sku}</td>
+                                                <td>{rupiah(product.price)}</td>
+                                                <td>{product.stock} pcs</td>
                                             </tr>
                                         );
                                     })}

@@ -20,7 +20,7 @@ class ProductFactory extends Factory
         return [
             'name' => ucwords($faker->words(2, true)), // Generates a 2-word product name
             'sku' => strtoupper($faker->bothify('SKU###??')), // Random SKU
-            'price' => $faker->numberBetween(10000, 1000000),
+            'price' => $faker->numberBetween(10000, 100000),
             'stock' => $faker->numberBetween(10, 100), // Stock between 10 and 100
             'created_at' => now(),
             'updated_at' => now(),

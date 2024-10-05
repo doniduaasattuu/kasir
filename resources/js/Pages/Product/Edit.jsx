@@ -9,52 +9,57 @@ import TextInput from "@/Components/TextInput";
 import { Select, Transition } from "@headlessui/react";
 import { Link, useForm, usePage } from "@inertiajs/react";
 import SecondaryButton from "@/Components/SecondaryButton";
+import DangerButton from "@/Components/DangerButton";
 
-export default function Create({ auth }) {
+export default function Create({ auth, product }) {
     const {
         data,
         setData,
-        post,
+        patch,
         errors,
         reset,
         processing,
         recentlySuccessful,
     } = useForm({
-        name: "",
-        sku: "",
-        price: "",
-        stock: "",
+        name: product.data.name,
+        sku: product.data.sku,
+        price: product.data.price,
+        stock: product.data.stock,
     });
 
     const submit = (e) => {
         e.preventDefault();
 
-        post(route("products.store"), {
-            onSuccess: () => {
-                reset();
-            },
-        });
+        patch(route("products.update", product.data.id), {});
     };
+
+    function deleteProduct(id) {
+        if (confirm("Are you sure to delete this product?")) {
+            router.delete(route("products.destroy", id));
+        }
+    }
 
     return (
         <AuthenticatedLayout>
-            <Head title="New Product" />
+            <Head title="Edit Product" />
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 space-y-6">
                     <div className="px-4 sm:px-0 text-gray-900 dark:text-gray-100">
                         <div className="flex justify-between">
                             <div>
-                                <h2>New Product</h2>
-                                <p>Create a new product</p>
+                                <h2>Edit Product</h2>
+                                <p>Update product data and information</p>
                             </div>
-                            {/* <div>
-                                <PrimaryButton
-                                    onClick={() => createNewProduct()}
+                            <div>
+                                <DangerButton
+                                    onClick={() =>
+                                        deleteProduct(product.data.id)
+                                    }
                                 >
-                                    New
-                                </PrimaryButton>
-                            </div> */}
+                                    Delete
+                                </DangerButton>
+                            </div>
                         </div>
                     </div>
 
@@ -150,7 +155,7 @@ export default function Create({ auth }) {
                                     Back
                                 </SecondaryButton>
                                 <PrimaryButton disabled={processing}>
-                                    Save
+                                    Update
                                 </PrimaryButton>
 
                                 <Transition
@@ -161,7 +166,7 @@ export default function Create({ auth }) {
                                     leaveTo="opacity-0"
                                 >
                                     <p className="text-sm text-gray-600 dark:text-gray-400">
-                                        Saved.
+                                        Updated.
                                     </p>
                                 </Transition>
                             </div>

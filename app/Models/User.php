@@ -23,6 +23,11 @@ class User extends Authenticatable
         'role_id',
     ];
 
+    public function isAdmin(): bool
+    {
+        return $this->role_id == 1;
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *
