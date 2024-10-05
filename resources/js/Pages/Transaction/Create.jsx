@@ -27,11 +27,7 @@ export default function Create({ auth }) {
     const submit = (e) => {
         e.preventDefault();
 
-        post(route("products.store"), {
-            onSuccess: () => {
-                reset();
-            },
-        });
+        post(route("transactions.store"));
     };
 
     return (
@@ -46,6 +42,13 @@ export default function Create({ auth }) {
                                 <h2>New Product</h2>
                                 <p>Create a new product</p>
                             </div>
+                            {/* <div>
+                                <PrimaryButton
+                                    onClick={() => createNewProduct()}
+                                >
+                                    New
+                                </PrimaryButton>
+                            </div> */}
                         </div>
                     </div>
 

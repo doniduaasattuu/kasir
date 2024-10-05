@@ -36,6 +36,14 @@ export default function Authenticated({ header, children, alert }) {
                                 >
                                     Products
                                 </NavLink>
+                                <NavLink
+                                    href={route("transactions.index")}
+                                    active={route().current(
+                                        "transactions.index"
+                                    )}
+                                >
+                                    Transaction
+                                </NavLink>
                             </div>
                         </div>
 
@@ -145,6 +153,12 @@ export default function Authenticated({ header, children, alert }) {
                             active={route().current("products.index")}
                         >
                             Products
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            href={route("transactions.index")}
+                            active={route().current("transactions.index")}
+                        >
+                            Transactions
                         </ResponsiveNavLink>
                     </div>
 
