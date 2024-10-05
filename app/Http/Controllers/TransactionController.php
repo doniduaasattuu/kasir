@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\TransactionResource;
+use App\Models\Product;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class TransactionController extends Controller
@@ -35,7 +37,21 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $products = collect($request->data)->map(function ($product) {
+            return [
+                Product::find($product['id']),
+                $product['quantity'],
+            ];
+        });
+
+        $transactionId = DB::table('transactions')->insertGetId([
+            'created_by' => auth()->user()->id,
+            'total' => 0,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        dd($products[0][0]);
     }
 
     /**

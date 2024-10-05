@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        DB::table('transaction_details')->delete();
         DB::table('transactions')->delete();
         DB::table('users')->delete();
         DB::table('products')->delete();

@@ -16,6 +16,13 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
+        if ($request->expectsJson()) {
+            $product = Product::where('sku', $request->sku)
+                ->first();
+
+            return response()->json($product);
+        }
+
         $products = Product::search($request)
             ->latest()
             ->paginate(10)

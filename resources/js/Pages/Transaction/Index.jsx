@@ -57,7 +57,7 @@ export default function Transaction({ auth, transactions }) {
                                     <tr>
                                         <th>ID</th>
                                         <th>Total</th>
-                                        <th>Created by</th>
+                                        <th>Cashier</th>
                                         <th>Date</th>
                                     </tr>
                                 </thead>
