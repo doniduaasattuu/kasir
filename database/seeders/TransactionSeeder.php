@@ -21,13 +21,16 @@ class TransactionSeeder extends Seeder
         //     ->create();
 
         $faker = Faker::create();
+        $max = 25;
 
-        foreach (range(1, 25) as $index) {
+        foreach (range(1, $max) as $index) {
+            $value = $max - $index;
+
             $transactionId = DB::table('transactions')->insertGetId([
                 'created_by' => User::all()->random()->id,
                 'total' => 0,
-                'created_at' => now()->addDays(-$index),
-                'updated_at' => now()->addDays(-$index),
+                'created_at' => now()->addDays(-$value),
+                'updated_at' => now()->addDays(-$value),
             ]);
 
             // Generate transaction details for each transaction
