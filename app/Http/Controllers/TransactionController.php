@@ -78,7 +78,10 @@ class TransactionController extends Controller
 
         return redirect()
             ->route('transactions.index')
-            ->with('success', 'Saved successfully');
+            ->with('alert', [
+                'type' => 'alert-success',
+                'body' => 'Transaction saved successfully'
+            ]);
     }
 
     /**

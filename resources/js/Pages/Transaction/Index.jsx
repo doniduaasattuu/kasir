@@ -3,9 +3,9 @@ import Pagination from "@/Components/Pagination";
 import PrimaryButton from "@/Components/PrimaryButton";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { rupiah } from "@/Utils/helper";
-import { Head, Link, router } from "@inertiajs/react";
+import { Head, Link, router, usePage } from "@inertiajs/react";
 
-export default function Transaction({ auth, transactions }) {
+export default function Transaction({ auth, transactions, alert }) {
     const isAdmin = auth.user.role_id == 1;
     function createNewTransaction() {
         router.get(route("transactions.create"));
@@ -47,7 +47,7 @@ export default function Transaction({ auth, transactions }) {
                         </Link>
                     </div> */}
 
-                    {/* {alert && <Alert alert={alert} />} */}
+                    {alert && <Alert alert={alert} />}
 
                     <div className="bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
                         <div className="overflow-x-auto p-6 text-gray-900 dark:text-gray-300">

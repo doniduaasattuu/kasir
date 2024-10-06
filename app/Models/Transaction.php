@@ -18,6 +18,8 @@ class Transaction extends Model
 
     protected $fillable = [
         'id',
+        'cash',
+        'change',
         'total',
         'created_by',
         'created_at',

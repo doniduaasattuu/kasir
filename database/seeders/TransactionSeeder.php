@@ -26,14 +26,14 @@ class TransactionSeeder extends Seeder
             $transactionId = DB::table('transactions')->insertGetId([
                 'created_by' => User::all()->random()->id,
                 'total' => 0,
-                'created_at' => now(),
-                'updated_at' => now(),
+                'created_at' => now()->addDays(-$index),
+                'updated_at' => now()->addDays(-$index),
             ]);
 
             // Generate transaction details for each transaction
             $total = 0;
             foreach (range(1, $faker->numberBetween(1, 5)) as $detailIndex) {
-                $productId = $faker->numberBetween(1, 25); // Assuming 100 products in your DB
+                $productId = $faker->numberBetween(1, 25); // Assuming 25 products in your DB
                 $quantity = $faker->numberBetween(1, 5);
                 $productPrice = DB::table('products')->where('id', $productId)->value('price'); // Get product price
 

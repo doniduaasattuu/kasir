@@ -126,7 +126,7 @@ export default function Create({ auth }) {
     }, [cash, scannedProducts]);
 
     // SUBMIT
-    function submit(e) {
+    const submit = (e) => {
         e.preventDefault();
 
         router.post(route("transactions.store"), {
@@ -212,7 +212,7 @@ export default function Create({ auth }) {
                                                                 product.price
                                                             )}
                                                         </td>
-                                                        <td className="space-x-4 w-48">
+                                                        <td className="space-x-4 min-w-44">
                                                             <SecondaryButton
                                                                 onClick={() =>
                                                                     decrementQty(
@@ -237,7 +237,7 @@ export default function Create({ auth }) {
                                                                 +
                                                             </SecondaryButton>
                                                         </td>
-                                                        <td className="w-40">
+                                                        <td className="min-w-36">
                                                             {rupiah(
                                                                 product.subTotal
                                                             )}
@@ -259,7 +259,7 @@ export default function Create({ auth }) {
                                                 <td></td>
                                                 <td></td>
                                                 <td className="font-semibold text-right">Amount:</td>
-                                                <td className="text-orange-500 w-40">{rupiah(amount)}</td>
+                                                <td className="text-orange-500">{rupiah(amount)}</td>
                                                 <td></td>
                                             </tr>
                                             <tr key="cash">
@@ -270,7 +270,7 @@ export default function Create({ auth }) {
                                                 <td className="font-semibold text-right">Cash:</td>
                                                 <td>
                                                     <TextInput
-                                                        className="w-40"
+                                                        className="w-full"
                                                         value={cash}
                                                         onChange={(e) => setCash(e.target.value)}
                                                         onFocus={(e) => {

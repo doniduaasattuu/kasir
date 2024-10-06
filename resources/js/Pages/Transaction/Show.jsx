@@ -21,7 +21,7 @@ export default function Transaction({ auth, transaction }) {
                         <div className="flex justify-between">
                             <div>
                                 <h2>Transaction details</h2>
-                                <p>The details of transaction</p>
+                                <p className="opacity-50">{transaction.data.created_at}</p>
                             </div>
                             <div>
                                 <SecondaryButton
@@ -96,8 +96,8 @@ export default function Transaction({ auth, transaction }) {
                                         </td>
                                     </tr>
                                     <tr key="change">
-                                        <td></td>
-                                        <td></td>
+                                        <td className="opacity-50 w-16">Cashier:</td>
+                                        <td className="opacity-50">{transaction.data.created_by}</td>
                                         <td></td>
                                         <td className="text-right">
                                             Change
