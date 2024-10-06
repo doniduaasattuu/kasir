@@ -8,7 +8,7 @@ import { Head, Link, router } from "@inertiajs/react";
 import { useState, useMemo, useEffect, useRef } from "react";
 
 export default function Product({ auth, products, alert }) {
-    const isAdmin = auth.user.role_id == 1 ?? false;
+    const isAdmin = auth.user.role_id == 1;
     function createNewProduct() {
         router.get(route("products.create"));
     }
@@ -92,7 +92,7 @@ export default function Product({ auth, products, alert }) {
                     {alert && <Alert alert={alert} />}
 
                     <div className="bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
-                        <div className="overflow-x-scroll p-6 text-gray-900 dark:text-gray-300">
+                        <div className="overflow-x-auto p-6 text-gray-900 dark:text-gray-300">
                             <table className="table min-w-max">
                                 {/* head */}
                                 <thead>
@@ -115,9 +115,9 @@ export default function Product({ auth, products, alert }) {
                                                         href={
                                                             isAdmin
                                                                 ? route(
-                                                                      "products.edit",
-                                                                      product.id
-                                                                  )
+                                                                    "products.edit",
+                                                                    product.id
+                                                                )
                                                                 : undefined
                                                         }
                                                         className={

@@ -37,6 +37,9 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
+
+        $cash = $request->cash;
+        $change = $request->change;
         $products = collect($request->data)->map(function ($product) {
             return [
                 Product::find($product['id']),
@@ -47,11 +50,35 @@ class TransactionController extends Controller
         $transactionId = DB::table('transactions')->insertGetId([
             'created_by' => auth()->user()->id,
             'total' => 0,
+            'cash' => $cash,
+            'change' => $change,
             'created_at' => now(),
             'updated_at' => now(),
         ]);
 
-        dd($products[0][0]);
+        $total = 0;
+        foreach ($products as $data) {
+            $product = $data[0];
+            $quantity = $data[1];
+
+            DB::table('transaction_details')->insert([
+                'transaction_id' => $transactionId,
+                'product_id' => $product->id,
+                'quantity' => $quantity,
+                'price' => $product->price,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            $product->update(['stock' => (($product->stock) - $quantity)]);
+            $total += ($product->price * $quantity);
+        }
+
+        DB::table('transactions')->where('id', $transactionId)->update(['total' => $total]);
+
+        return redirect()
+            ->route('transactions.index')
+            ->with('success', 'Saved successfully');
     }
 
     /**

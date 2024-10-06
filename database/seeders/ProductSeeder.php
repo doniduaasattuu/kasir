@@ -16,7 +16,7 @@ class ProductSeeder extends Seeder
     public function run(): void
     {
         Product::factory()
-            ->count(100)
+            ->count(25)
             ->create();
 
         $products = [
@@ -32,7 +32,8 @@ class ProductSeeder extends Seeder
             ->sequence(fn(Sequence $sequence) => [
                 'sku' => 'SKU00' . $sequence->index + 1 . 'OK',
                 'name' => $products[$sequence->index],
-                'price' => Faker::create()->numberBetween(10000, 20000),
+                // 'price' => Faker::create()->numberBetween(10000, 20000),
+                'price' => 10000,
                 'stock' => Faker::create()->numberBetween(10, 100), // Stock between 10 and 100
                 'created_at' => now(),
                 'updated_at' => now(),

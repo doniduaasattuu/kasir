@@ -6,7 +6,7 @@ import { rupiah } from "@/Utils/helper";
 import { Head, Link, router } from "@inertiajs/react";
 
 export default function Transaction({ auth, transactions }) {
-    const isAdmin = auth.user.role_id == 1 ?? false;
+    const isAdmin = auth.user.role_id == 1;
     function createNewTransaction() {
         router.get(route("transactions.create"));
     }
@@ -50,7 +50,7 @@ export default function Transaction({ auth, transactions }) {
                     {/* {alert && <Alert alert={alert} />} */}
 
                     <div className="bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
-                        <div className="overflow-x-scroll p-6 text-gray-900 dark:text-gray-300">
+                        <div className="overflow-x-auto p-6 text-gray-900 dark:text-gray-300">
                             <table className="table min-w-max">
                                 {/* head */}
                                 <thead>
@@ -69,13 +69,16 @@ export default function Transaction({ auth, transactions }) {
                                                 className="hover"
                                             >
                                                 <th>
-                                                    <Link
+                                                    {
+                                                        transaction.id
+                                                    }
+                                                    {/* <Link
                                                         href={
                                                             isAdmin
                                                                 ? route(
-                                                                      "transactions.edit",
-                                                                      transaction.id
-                                                                  )
+                                                                    "transactions.edit",
+                                                                    transaction.id
+                                                                )
                                                                 : undefined
                                                         }
                                                         className={
@@ -85,7 +88,7 @@ export default function Transaction({ auth, transactions }) {
                                                         }
                                                     >
                                                         {transaction.id}
-                                                    </Link>
+                                                    </Link> */}
                                                 </th>
                                                 <td>
                                                     {rupiah(transaction.total)}
@@ -98,7 +101,7 @@ export default function Transaction({ auth, transactions }) {
                                                 </td>
                                                 <td>
                                                     <Link
-                                                        className="text-sm p-2 text-blue-500"
+                                                        className="text-sm p-2 text-blue-500 link underline-offset-2"
                                                         href={route(
                                                             "transactions.show",
                                                             transaction.id

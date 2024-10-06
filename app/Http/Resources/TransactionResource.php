@@ -18,6 +18,8 @@ class TransactionResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'cash' => $this->cash,
+            'change' => $this->change,
             'total' => $this->total,
             'created_by' => User::find($this->created_by)?->name,
             'created_at' => $this->created_at->toFormattedDateString(),

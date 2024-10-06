@@ -8,11 +8,8 @@ import { Head, Link, router } from "@inertiajs/react";
 
 export default function Transaction({ auth, transaction }) {
     const isAdmin = auth.user.role_id == 1 ?? false;
-
-    console.log(transaction.data.transaction_details);
-    // function createNewTransaction() {
-    //     router.get(route("transactions.create"));
-    // }
+    const cash = transaction.data.cash;
+    const change = transaction.data.change;
 
     return (
         <AuthenticatedLayout>
@@ -36,36 +33,23 @@ export default function Transaction({ auth, transaction }) {
                         </div>
                     </div>
 
-                    {/* <div className="px-4 sm:px-0 flex space-x-4">
-                        <TextInput
-                            id="search"
-                            className="mt-1 block w-sm"
-                            value={inputSearch}
-                            onChange={(e) => setInputSearch(e.target.value)}
-                            placeholder="Search transaction data..."
-                        />
-
-                        <Link className="text-blue-500 text-sm self-center">
-                            Refresh
-                        </Link>
-                    </div> */}
-
-                    {/* {alert && <Alert alert={alert} />} */}
-
                     <div className="bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
-                        <div className="overflow-x-scroll p-6 text-gray-900 dark:text-gray-300">
+                        <div className="overflow-x-auto p-6 text-gray-900 dark:text-gray-300">
                             <table className="table min-w-max">
                                 <thead>
                                     <tr>
                                         <th>ID</th>
                                         <th>Product name</th>
                                         <th>Quantity</th>
-                                        <th>Price</th>
+                                        <th>@Price</th>
+                                        <th>Total</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {transaction.data.transaction_details.map(
                                         (detail) => {
+
+
                                             const subTotal =
                                                 detail.quantity * detail.price;
 
@@ -76,7 +60,7 @@ export default function Transaction({ auth, transaction }) {
                                                 >
                                                     <th>{detail.id}</th>
                                                     <td>
-                                                        {detail.product.name}
+                                                        {detail.product?.name ?? <span className="text-red-500">[Product deleted]</span>}
                                                     </td>
                                                     <td>
                                                         {detail.quantity} Pcs
@@ -89,7 +73,7 @@ export default function Transaction({ auth, transaction }) {
                                             );
                                         }
                                     )}
-                                    <tr>
+                                    <tr key="total">
                                         <td></td>
                                         <td></td>
                                         <td></td>
@@ -100,10 +84,33 @@ export default function Transaction({ auth, transaction }) {
                                             {rupiah(transaction.data.total)}
                                         </td>
                                     </tr>
+                                    <tr key="cash">
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td className="text-right">
+                                            Cash
+                                        </td>
+                                        <td>
+                                            {rupiah(cash)}
+                                        </td>
+                                    </tr>
+                                    <tr key="change">
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td className="text-right">
+                                            Change
+                                        </td>
+                                        <td>
+                                            {rupiah(change)}
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
+
                 </div>
             </div>
         </AuthenticatedLayout>

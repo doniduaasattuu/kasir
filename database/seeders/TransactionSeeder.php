@@ -22,7 +22,7 @@ class TransactionSeeder extends Seeder
 
         $faker = Faker::create();
 
-        foreach (range(1, 50) as $index) {
+        foreach (range(1, 25) as $index) {
             $transactionId = DB::table('transactions')->insertGetId([
                 'created_by' => User::all()->random()->id,
                 'total' => 0,
@@ -33,7 +33,7 @@ class TransactionSeeder extends Seeder
             // Generate transaction details for each transaction
             $total = 0;
             foreach (range(1, $faker->numberBetween(1, 5)) as $detailIndex) {
-                $productId = $faker->numberBetween(1, 100); // Assuming 100 products in your DB
+                $productId = $faker->numberBetween(1, 25); // Assuming 100 products in your DB
                 $quantity = $faker->numberBetween(1, 5);
                 $productPrice = DB::table('products')->where('id', $productId)->value('price'); // Get product price
 
