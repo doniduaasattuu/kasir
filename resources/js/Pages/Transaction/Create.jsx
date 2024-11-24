@@ -114,11 +114,11 @@ export default function Create({ auth }) {
 
     useEffect(() => {
         let total = 0;
-        scannedProducts.map((p) => {
-            total += p.subTotal;
+        scannedProducts.map((product) => {
+            total += Number(product.subTotal);
         });
 
-        setAmount(total);
+        setAmount(Number(total));
     }, [scannedProducts]);
 
     useEffect(() => {
